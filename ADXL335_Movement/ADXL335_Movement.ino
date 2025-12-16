@@ -27,24 +27,37 @@ void loop() {
 
   Serial.println(String(x) +", "+ String(y)+ ", " + String(z));
 
-  // Ignore small noise
   if (abs(x) < deadZone && abs(y) < deadZone) {
     Serial.println("FLAT");
-  } 
+  }
+
+  // ---- DIAGONALS (check first) ----
+  else if (x > threshold && y > threshold) {
+    Serial.println("FORWARD-RIGHT");
+  }
+  else if (x < -threshold && y > threshold) {
+    Serial.println("FORWARD-LEFT");
+  }
+  else if (x > threshold && y < -threshold) {
+    Serial.println("BACKWARD-RIGHT");
+  }
+  else if (x < -threshold && y < -threshold) {
+    Serial.println("BACKWARD-LEFT");
+  }
+
+  // ---- CARDINAL DIRECTIONS ----
   else if (x > threshold) {
     Serial.println("RIGHT");
-  } 
+  }
   else if (x < -threshold) {
     Serial.println("LEFT");
-  } 
+  }
   else if (y > threshold) {
     Serial.println("FORWARD");
-  } 
+  }
   else if (y < -threshold) {
     Serial.println("BACKWARD");
   }
-
-  delay(200);
 }
 
 void calibrate() {
